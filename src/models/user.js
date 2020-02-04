@@ -2,11 +2,11 @@ import mongoose from './base.js'
 import bcrypt from 'bcrypt'
 var SALT_FACTOR = 10
 
-const initUser = async () => {
+var initUser = async () => {
   const schema = mongoose.Schema
   // schema validations
-  const userSchema = new schema( 
-    { first_name: {
+  const userSchema = new schema({ 
+      first_name: {
         type: String,
         validate: {
           validator: (text) => {
@@ -47,9 +47,9 @@ const initUser = async () => {
         },
         required: [true, 'Please provide a valid password.']
       },
-      token: String,
-      timestamps: true,
-    }
+      token: String
+    },
+    {timestamps: true}
   )
   // Password salting
 
@@ -81,8 +81,8 @@ const initUser = async () => {
     });
   }
 
-  const User = await mongoose.model('User', userSchema)
-  module.exports = User;
+  const UserModel = await mongoose.model('User', userSchema)
 }
 
-initUser();
+var model = initUser();
+export default model.UserModel
