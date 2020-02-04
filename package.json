@@ -1,0 +1,31 @@
+{
+  "name": "user_logger",
+  "version": "1.0.0",
+  "description": "Trackr for User Activity",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vijayshreem-cuelogic/user_logger.git"
+  },
+  "keywords": [
+    "hapi",
+    "api",
+    "example"
+  ],
+  "author": "VJ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vijayshreem-cuelogic/user_logger/issues"
+  },
+  "homepage": "https://github.com/vijayshreem-cuelogic/user_logger#readme",
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@hapi/hapi": "^19.1.0",
+    "dotenv": "^8.2.0"
+  }
+}
