@@ -1,19 +1,15 @@
-require('dotenv').config()
+import 'dotenv/config'
 import express from 'express'
-console.log(`======== ${process.env.mongoUrl} =======`)
+import bodyparser from 'body-parser'
 import mongoose from './src/models/base'
 import usersRoute from './src/routers/users'
 var app = express();
 
-var router = express.Router();
-
-router.get('/', function(request, response){
-  response.send('Welcome to express')
-})
-
+app.use(bodyparser.urlencoded({extended: true}))
 app.use('/api', usersRoute)
-app.use('/api', router)
-app.listen('3000', (err, response)=>{
+
+app.listen(process.env.PORT, (err, response)=>{
   if(err) throw err;
   console.log('Server started')
+  console.log(` PORT ${process.env.PORT}`)
 })

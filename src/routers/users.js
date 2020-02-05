@@ -1,15 +1,21 @@
 import express from 'express'
 import usersController from '../api/controllers/users_controller'
-var usersRoute = express.Router()
+import authToken from '../middleware/auth_token'
+
+var usersRoute = express.Router({mergeParams: true})
 
 usersRoute.post('/users/signup', usersController.signup)
 
-usersRoute.get('/users/signin', usersController.signin)
+usersRoute.post('/users/signin', usersController.signin)
 
-usersRoute.get('/users/', usersController.index)
+usersRoute.get('/users/', authToken, usersController.index)
 
-usersRoute.put('/users/:id/edit', usersController.edit)
+usersRoute.put('/users/:id/edit', authToken, usersController.edit)
 
-usersRoute.delete('/users/:id/delete', usersController.deleteUser)
+usersRoute.delete('/users/:id/delete', authToken, usersController.deleteUser)
+
+usersRoute.get('/users/:id/profile', authToken, usersController.profile)
+
+usersRoute.get('/users/getInactiveUsers', authToken, usersController.getInactiveUsers)
 
 export default usersRoute

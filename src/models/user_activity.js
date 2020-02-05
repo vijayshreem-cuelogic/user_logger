@@ -1,14 +1,16 @@
-import 'base.js'
-import mongoose from 'mongoose'
-const activitySchema = mongoose.Schema
-const refsVar = activitySchema.Types.ObjectId
+import mongoose from './base.js'
 
-const userActivitySchema = activitySchema({
-  user_id: [{ type: refsVar, ref: 'User' }],
+const activitySchema = mongoose.Schema
+
+const userActivitySchema = new activitySchema({
+  user_id: { type: mongoose.Schema.ObjectId, ref: 'User'},
   ip: String,
-  last_login: Date, default: Date.now(),
+  last_login: { type: Date, default: Date.now },
   user_agent: String
-})
+},
+{ timestamps: true }
+)
 
 const UserActivity = mongoose.model('UserActivity', userActivitySchema)
-module.exports = UserActivity
+export default UserActivity
+

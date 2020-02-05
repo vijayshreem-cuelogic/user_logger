@@ -2,15 +2,15 @@ import mongoose from './base.js'
 import bcrypt from 'bcrypt'
 var SALT_FACTOR = 10
 
-var initUser = async () => {
   const schema = mongoose.Schema
   // schema validations
-  const userSchema = new schema({ 
+  const userSchema = new schema(
+    { 
       first_name: {
         type: String,
         validate: {
           validator: (text) => {
-            return '/[AZaz]/'.test(text)
+            return /[a-zA-Z]/.test(text);
           },
           message: props => `${props.value} can only be characters.` 
         },
@@ -20,7 +20,7 @@ var initUser = async () => {
         type: String,
         validate: {
           validator: (text) => {
-            return '/[AZaz]/'.test(text)
+            return /[a-zA-Z]/.test(text);
           },
           message: props => `${props.value} can only be characters.` 
         }
@@ -41,9 +41,9 @@ var initUser = async () => {
         type: String,
         validate: {
           validator: (text) => {
-            return /^[a-zA-Z0-9]{5,10}$/.test(text)
+            return /^[a-zA-Z0-9]{5,15}$/.test(text)
           },
-          message: props => `${props.value} must be 5 to 10 characters long, atleast one uppercase, lowercase and digit.`
+          message: props => `${props.value} must be 5 to 15 characters long, atleast one uppercase, lowercase and digit.`
         },
         required: [true, 'Please provide a valid password.']
       },
@@ -71,18 +71,14 @@ var initUser = async () => {
 
   // method to add before binding to model 
   userSchema.static.findbyemail = async function(emailText) {
-    return await this.model.find({ email: emailText })
+    return await this.model.findOne({ email: emailText })
   }
 
-  userSchema.methods.passwordMatch = function(userPassword, next){
-    bcrypt.compare(userPassword, this.password, function(error, isMatch){
-      if(error) return next(error);
-      next(null, isMatch);
-    });
+  userSchema.methods.passwordMatch = function(userPassword){
+    var user = this
+    return bcrypt.compareSync(userPassword, user.password)
   }
 
-  const UserModel = await mongoose.model('User', userSchema)
-}
+  const UserModel = mongoose.model('User', userSchema)
 
-var model = initUser();
-export default model.UserModel
+export default UserModel
