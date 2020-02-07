@@ -5,7 +5,7 @@ var userActions = (()=> {
 
   var signin = async function(request, response){
     const { email, password } = request.body
-    await User.findOne({email: email})
+    await User.findByEmail(email)
     .then(async (user) => { 
       if(user.passwordMatch(password))
       { 
@@ -46,7 +46,7 @@ var userActions = (()=> {
     try
     {
       const { email, password, first_name, last_name } = request.body;
-      const existingUser = await User.findOne({email: email}).exec();
+      const existingUser = await User.findByEmail(email);
       if(existingUser) 
       {
         return response.status(409).send(`Error: ${email} specified email already Exist`)
@@ -76,13 +76,13 @@ var userActions = (()=> {
       console.log(request.body)
       var id = request.params.id
       const { email, password, first_name, last_name } = request.body;
-      const updateUser = {
+      const updatedUser = {
         first_name: first_name,
         last_name: last_name,
         email: email,
         password: password
       }
-      await User.findOneAndUpdate({_id: id}, updateUser, {new: true})
+      await User.updateUser(id, updatedUser)
       .then((user)=>{
         if(user)
           {response.status(200).send(`Updated user ${JSON.stringify(user)}`)}
@@ -101,14 +101,14 @@ var userActions = (()=> {
   
   var deleteUser = async function(request, response){
     var id = request.params.id
-    await User.findOneAndDelete({_id: id})
+    await User.removeUser(id)
     .then(() => { response.status(200).send('User deleted successfully') })
     .catch((error) => { response.status(500).send(error) })
   }
 
   var profile = async function(request, response){
     var id = request.params.id
-    await User.findOne({_id: id})
+    await User.findById(id)
     .then((user) => { response.status(200).send(user) })
     .catch((error)=>{ `Some error has been occured ${error}` })
   }

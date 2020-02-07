@@ -69,11 +69,24 @@ var SALT_FACTOR = 10
     })
   })
 
-  // method to add before binding to model 
-  userSchema.static.findbyemail = async function(emailText) {
-    return await this.model.findOne({ email: emailText })
+  // Static Methods: method to be added before binding to model 
+  userSchema.statics.findByEmail = async function(emailText) {
+    return await this.findOne({ email: emailText })
   }
 
+  userSchema.statics.findById = async function(id) {
+    return await this.findOne({ _id: id })
+  }
+
+  userSchema.statics.removeUser = async function(id) {
+    return await this.findOneAndDelete({ _id: id })
+  }
+
+  userSchema.statics.updateUser = async function(id, updatedUser) {
+    return await this.findOneAndUpdate({_id: id}, updatedUser, {new: true})
+  }
+  
+  // Instance methods
   userSchema.methods.passwordMatch = function(userPassword){
     var user = this
     return bcrypt.compareSync(userPassword, user.password)
