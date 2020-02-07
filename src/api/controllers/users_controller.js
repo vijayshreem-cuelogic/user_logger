@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken'
 var userActions = (()=> {
 
   var signin = async function(request, response){
-    var result = {}
     const { email, password } = request.body
     await User.findOne({email: email})
     .then(async (user) => { 
