@@ -5,7 +5,7 @@ var initDBConnection = async function() {
   console.log(`---- ${url} -----`)
   await mongoose.connect(url, {'useCreateIndex': true })
   .then(console.log('Database Created'))
-  .catch((e) => console.log(`Error ${e}`))
+  .catch((e) => console.log(`Error ${e}`));
   
 }
 initDBConnection();

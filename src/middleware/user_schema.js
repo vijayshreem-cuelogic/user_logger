@@ -12,7 +12,6 @@ const UserSchema = {
     email: Joi.string().email().lowercase().required(),
     password: Joi.string().min(5).max(15).regex(/[a-zA-Z0-9]/).required()
   })
-  
 }
 
 export default  UserSchema

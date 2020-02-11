@@ -11,6 +11,6 @@ const userActivitySchema = new activitySchema({
 { timestamps: true }
 )
 
-const UserActivity = mongoose.model('UserActivity', userActivitySchema)
+const UserActivity = mongoose.model('UserActivity', userActivitySchema);
 export default UserActivity
 

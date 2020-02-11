@@ -71,25 +71,25 @@ var SALT_FACTOR = 10
 
   // Static Methods: method to be added before binding to model 
   userSchema.statics.findByEmail = async function(emailText) {
-    return await this.findOne({ email: emailText })
+    return await this.findOne({ email: emailText });
   }
 
   userSchema.statics.findById = async function(id) {
-    return await this.findOne({ _id: id })
+    return await this.findOne({ _id: id });
   }
 
   userSchema.statics.removeUser = async function(id) {
-    return await this.findOneAndDelete({ _id: id })
+    return await this.findOneAndDelete({ _id: id });
   }
 
   userSchema.statics.updateUser = async function(id, updatedUser) {
-    return await this.findOneAndUpdate({_id: id}, updatedUser, {new: true})
+    return await this.findOneAndUpdate({_id: id}, updatedUser, {new: true});
   }
   
   // Instance methods
   userSchema.methods.passwordMatch = function(userPassword){
-    var user = this
-    return bcrypt.compareSync(userPassword, user.password)
+    var user = this;
+    return bcrypt.compareSync(userPassword, user.password);
   }
 
   const UserModel = mongoose.model('User', userSchema)

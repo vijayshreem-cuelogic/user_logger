@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 var userActions = (()=> {
 
   var signin = async function(request, response){
-    const { email, password } = request.body
+    const { email, password } = request.body;
     await User.findByEmail(email)
     .then(async (user) => { 
       if(user.passwordMatch(password))
@@ -22,17 +22,17 @@ var userActions = (()=> {
           user_id: user._id
         }
 
-        var user_activity = new UserActivity(activity)
-        await user_activity.save().then(response.status(200).send({token: token}) )
+        var user_activity = new UserActivity(activity);
+        await user_activity.save().then(response.status(200).send({token: token}) );
       }
       else
       { 
-        response.status(500).send('Invalid Email or password') 
+        response.status(500).send('Invalid Email or password');
       } 
     })
     .catch((error) => { 
-      response.status(500).send('User does not exist')
-      console.log(error)
+      response.status(500).send('User does not exist');
+      console.log(error);
     })
   }
   
@@ -49,7 +49,7 @@ var userActions = (()=> {
       const existingUser = await User.findByEmail(email);
       if(existingUser) 
       {
-        return response.status(409).send(`Error: ${email} specified email already Exist`)
+        return response.status(409).send(`Error: ${email} specified email already Exist`);
       }
       const newUser = {
         first_name: first_name,
@@ -60,9 +60,9 @@ var userActions = (()=> {
       var user = new User(newUser)
       await user.save()
               .then(function(validUser){
-                response.send(`Created user ${JSON.stringify(validUser)}`)
+                response.send(`Created user ${JSON.stringify(validUser)}`);
               }).catch(function(err){
-                response.status(500).send(`Some error has been occured ${err}`)
+                response.status(500).send(`Some error has been occured ${err}`);
               })
     }
     catch(error){
@@ -74,7 +74,7 @@ var userActions = (()=> {
   var edit = async function(request, response){
     try{
       console.log(request.body)
-      var id = request.params.id
+      var id = request.params.id;
       const { email, password, first_name, last_name } = request.body;
       const updatedUser = {
         first_name: first_name,
@@ -85,17 +85,17 @@ var userActions = (()=> {
       await User.updateUser(id, updatedUser)
       .then((user)=>{
         if(user)
-          {response.status(200).send(`Updated user ${JSON.stringify(user)}`)}
+          {response.status(200).send(`Updated user ${JSON.stringify(user)}`);}
         else
-        { response.status(500).send(`User not found`)}
+        { response.status(500).send(`User not found`);}
       })
       .catch((error) => {
-        response.status(500).send(`Some error has been occured ${error}`)
+        response.status(500).send(`Some error has been occured ${error}`);
       })
     }
     catch(error){
-      console.log(`error ${error}`)
-      response.status(500).send(error)
+      console.log(`error ${error}`);
+      response.status(500).send(error);
     }
   }
   
@@ -110,7 +110,7 @@ var userActions = (()=> {
     var id = request.params.id
     await User.findById(id)
     .then((user) => { response.status(200).send(user) })
-    .catch((error)=>{ `Some error has been occured ${error}` })
+    .catch((error)=>{ `Some error has been occured ${error}` });
   }
 
   var getInactiveUsers = async function(request, response){
@@ -119,12 +119,12 @@ var userActions = (()=> {
                       .sort({createdAt: 1})
                       .limit(parseInt(process.env.inactiveDays))
                       .populate('user')
-                      console.log(parseInt(process.env.inactiveDays))
-      response.status(200).send(JSON.stringify(activity))
+                      console.log(parseInt(process.env.inactiveDays));
+      response.status(200).send(JSON.stringify(activity));
     }
     catch(error)
     {
-      response.status(500).send(error)
+      response.status(500).send(error);
     }
   }
 
