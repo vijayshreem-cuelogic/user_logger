@@ -54,5 +54,6 @@ $ sudo systemctl stop mongodb
 # Database Backup 
 Run
 - ./backup.sh
-
+# ENV
+- Contact server team to get env attributes.
 
